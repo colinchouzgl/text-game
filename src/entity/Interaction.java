@@ -6,7 +6,7 @@ import java.util.List;
  * @author Zhou Guanliang
  * @since 2018/5/27
  */
-public class Interaction {
+public class Interaction extends Entity{
     private String preface;
     private List<Integer> optionIds;
     private int preId;

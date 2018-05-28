@@ -2,15 +2,14 @@ package common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Entity;
+import entity.Statement;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.util.JSONUtils;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author Zhou Guanliang
@@ -23,6 +22,16 @@ public class Utils {
     }
 
     public static void initAll(JSONObject json) {
+        initField(json, Constants.TABLE_ID_STATEMENT, Integer.class);
+        initField(json, Constants.TABLE_ID_INTERACTION, Integer.class);
+        initField(json, Constants.TABLE_ID_OPTION, Integer.class);
+
+        initMapField(json, Constants.KEY_STATEMENTS, Statement.class);
+        initMapField(json, Constants.KEY_INTERACTIONS, Statement.class);
+        initMapField(json, Constants.KEY_OPTIONS, Statement.class);
+
+        initField(json, Constants.KEY_BEGINNING_ID, Integer.class);
+        initField(json, Constants.KEY_BEGINNING_CLASS, Class.class);
     }
 
     public static <T> void initField(JSONObject json, String key, Class<T> clazz) {
@@ -39,11 +48,21 @@ public class Utils {
         }
     }
 
-    public static <T extends Entity> List<T> initId(List<T> entities) {
+    public static <T> void initMapField(JSONObject json, String key, Class<T> clazz) {
+        String value = JSONUtils.valueToString(json.get(key));
+        Map<String, T> map = fromJson(value, Map.class);
+
+        Map<Integer, T> finalMap = new HashMap<>();
+        if (map != null) {
+            map.forEach((k, v) -> finalMap.put(Integer.parseInt(k), v));
+        }
+        Cache.put(key, finalMap);
+    }
+
+    public static <T extends Entity> void initId(List<T> entities) {
         if (entities != null) {
             entities.forEach(e -> e.setId(generateId(getTableKey(e.getClass()))));
         }
-        return entities;
     }
 
     public static Integer generateId(Class clazz) {

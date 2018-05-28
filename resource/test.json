@@ -1,0 +1,68 @@
+{
+  "beginning_class" : "entity.Statement",
+  "beginning_id" : 1,
+  "id_interaction" : 1,
+  "id_option" : 2,
+  "id_statement" : 4,
+  "interactions" : {
+    "1" : {
+      "id" : 1,
+      "optionIds" : [ 1, 2 ],
+      "preClazz" : "entity.Statement",
+      "preId" : 2,
+      "preface" : "Nobody. And you?"
+    }
+  },
+  "options" : {
+    "1" : {
+      "code" : 1,
+      "id" : 1,
+      "interactionId" : 1,
+      "nextClazz" : "entity.Statement",
+      "nextId" : 3,
+      "text" : "Me, too"
+    },
+    "2" : {
+      "code" : 2,
+      "id" : 2,
+      "interactionId" : 1,
+      "nextClazz" : "entity.Statement",
+      "nextId" : 4,
+      "text" : "Colin"
+    }
+  },
+  "statements" : {
+    "1" : {
+      "id" : 1,
+      "nextClazz" : "entity.Statement",
+      "nextId" : 2,
+      "preClazz" : null,
+      "preId" : 0,
+      "text" : "Welcome!"
+    },
+    "2" : {
+      "id" : 2,
+      "nextClazz" : null,
+      "nextId" : 0,
+      "preClazz" : "entity.Statement",
+      "preId" : 1,
+      "text" : "Who?"
+    },
+    "3" : {
+      "id" : 3,
+      "nextClazz" : null,
+      "nextId" : 0,
+      "preClazz" : "entity.Option",
+      "preId" : 1,
+      "text" : "OK"
+    },
+    "4" : {
+      "id" : 4,
+      "nextClazz" : null,
+      "nextId" : 0,
+      "preClazz" : "entity.Option",
+      "preId" : 2,
+      "text" : "Hi, colin"
+    }
+  }
+}
