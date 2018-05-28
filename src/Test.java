@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
 import common.Cache;
 import common.Constants;
 import common.Utils;
@@ -14,7 +13,7 @@ import java.util.*;
  * @since 2018/5/28
  */
 public class Test {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         init();
         display();
     }
@@ -64,13 +63,12 @@ public class Test {
         return jsonObject;
     }
 
-    public static void display() throws Exception {
+    public static void display() {
         Map<String, Object> map = Cache.getData();
         SortedMap<String, Object> sortedMap = new TreeMap<>();
         map.forEach(sortedMap::put);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String s = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(sortedMap);
+        String s = Utils.toPrettyJson(sortedMap);
         System.out.println(s);
     }
 }
