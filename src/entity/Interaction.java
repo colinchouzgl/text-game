@@ -1,7 +1,5 @@
 package entity;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +11,8 @@ public class Interaction extends Entity {
     private String preface;
     private List<Integer> optionIds = new ArrayList<>();
     private int optionSize;
-    private int preId;
-    private Class preClazz;
+//    private int preId;
+//    private Class preClazz;
 
     public String getPreface() {
         return preface;
@@ -40,29 +38,42 @@ public class Interaction extends Entity {
         this.optionSize = optionSize;
     }
 
-    public int getPreId() {
-        return preId;
-    }
-
-    public void setPreId(int preId) {
-        this.preId = preId;
-    }
-
-    public Class getPreClazz() {
-        return preClazz;
-    }
-
-    public void setPreClazz(Class preClazz) {
-        this.preClazz = preClazz;
-    }
+//    public int getPreId() {
+//        return preId;
+//    }
+//
+//    public void setPreId(int preId) {
+//        this.preId = preId;
+//    }
+//
+//    public Class getPreClazz() {
+//        return preClazz;
+//    }
+//
+//    public void setPreClazz(Class preClazz) {
+//        this.preClazz = preClazz;
+//    }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        String desc = "Interaction " + getId() + "\n" +
+                SPLIT_LINE + "\n" +
+                "preface:\n" +
+                preface + "\n" +
+                "optionSize: " + optionSize + "\n" +
+                "optionIds:[";
+        for (Integer optionId : optionIds) {
+            desc += optionId + ", ";
+        }
+        if (optionIds.size() > 0) {
+            desc = desc.substring(0, desc.length() - 2);
+        }
+        desc += "]\n" + SPLIT_LINE;
+        return desc;
     }
 
     @Override
     public String getDesc() {
-        return "i" + super.getId() + "(" + Entity.cutText(preface) + ")";
+        return "i" + getId() + "(" + Entity.cutText(preface) + ")";
     }
 }

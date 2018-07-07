@@ -33,16 +33,16 @@ public class Test {
         Statement statement = new Statement();
         statement.setText("welcome!");
         statement.setId(Utils.generateId(Statement.class));
-        statement.setPreClazz(Statement.class);
-        statement.setPreId(1);
+//        statement.setPreClazz(Statement.class);
+//        statement.setPreId(1);
         Map<String, Statement> statementMap = new HashMap<>();
         statementMap.put(Integer.toString(statement.getId()), statement);
         jsonObject.put(Constants.KEY_STATEMENTS, statementMap);
 
         Interaction interaction = new Interaction();
         interaction.setId(Utils.generateId(Interaction.class));
-        interaction.setPreId(1);
-        interaction.setPreClazz(Interaction.class);
+//        interaction.setPreId(1);
+//        interaction.setPreClazz(Interaction.class);
         interaction.setPreface("aaa");
         Integer[] oIds = {1, 2};
         interaction.setOptionIds(Arrays.asList(oIds));

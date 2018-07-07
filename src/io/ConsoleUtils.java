@@ -18,6 +18,7 @@ public class ConsoleUtils {
 
     public static final String COMMAND_EXIT = "exit";
     public static final String COMMAND_CHECK = "check";
+    public static final String COMMAND_GET = "get";
     public static final String COMMAND_APPEND = "append";
     public static final String COMMAND_DELETE = "del";
     public static final String COMMAND_EDIT = "edit";
@@ -51,37 +52,18 @@ public class ConsoleUtils {
                     break;
                 }
 
+                Entity entity;
                 switch (input.toLowerCase()) {
                     case COMMAND_CHECK:
                         System.out.println("Unfinished nodes:");
                         unfinished.forEach(node -> System.out.println(node.getDesc()));
                         break;
+                    case COMMAND_GET:
+                        entity = inputNode();
+                        System.out.println(entity.toString());
+                        break;
                     case COMMAND_APPEND:
-                        Entity entity;
-                        System.out.println("Node:");
-                        while (true) {
-                            System.out.print(">>");
-                            input = sc.nextLine();
-                            if (input.length() <= 1) {
-                                System.out.println("Illegal format!(eg. s8/i15/o20)");
-                            } else {
-                                Class clazz = parseTypeCode(input.substring(0, 1));
-                                if (clazz == null) {
-                                    System.out.println("Illegal format!(eg. s8/i15/o20)");
-                                } else {
-                                    try {
-                                        int id = Integer.parseInt(input.substring(1, input.length()));
-                                        entity = BaseDao.get(id, clazz);
-                                        if (entity == null) {
-                                            System.out.println("No such node found!");
-                                        }
-                                        break;
-                                    } catch (NumberFormatException e) {
-                                        System.out.println("Illegal format!(eg. s8/i15/o20)");
-                                    }
-                                }
-                            }
-                        }
+                        entity = inputNode();
 
                         if (entity instanceof Interaction) {
                             //add option
@@ -94,6 +76,35 @@ public class ConsoleUtils {
                 }
             }
         }
+    }
+
+    private static Entity inputNode() {
+        Entity entity;
+        System.out.println("Node:");
+        while (true) {
+            System.out.print(">>");
+            input = sc.nextLine();
+            if (input.length() <= 1) {
+                System.out.println("Illegal format!(eg. s8/i15/o20)");
+            } else {
+                Class clazz = parseTypeCode(input.substring(0, 1));
+                if (clazz == null) {
+                    System.out.println("Illegal format!(eg. s8/i15/o20)");
+                } else {
+                    try {
+                        int id = Integer.parseInt(input.substring(1, input.length()));
+                        entity = BaseDao.get(id, clazz);
+                        if (entity == null) {
+                            System.out.println("No such node found!");
+                        }
+                        break;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Illegal format!(eg. s8/i15/o20)");
+                    }
+                }
+            }
+        }
+        return entity;
     }
 
     private static void createBeginning() {
@@ -120,11 +131,14 @@ public class ConsoleUtils {
                             if (input.equals(END_SYMBOL)) {
                                 break;
                             }
-                            text += input;
+                            text += input + "\n";
+                        }
+                        if (text.length() > 0) {
+                            text = text.substring(0, text.length() - 1);
                         }
                         statement.setText(text);
-                        statement.setPreId(preId);
-                        statement.setPreClazz(preClazz);
+//                        statement.setPreId(preId);
+//                        statement.setPreClazz(preClazz);
                         BaseDao.insert(statement);
                         return;
                     case 2:
@@ -155,10 +169,8 @@ public class ConsoleUtils {
                                 System.out.println("Integer supported only!");
                             }
                         }
-
-                        interaction.setPreId(preId);
-                        interaction.setPreClazz(preClazz);
-
+//                        interaction.setPreId(preId);
+//                        interaction.setPreClazz(preClazz);
                         BaseDao.insert(interaction);
                         return;
                     default:

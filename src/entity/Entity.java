@@ -5,6 +5,7 @@ package entity;
  * @since 2018/5/27
  */
 public class Entity {
+    public static final String SPLIT_LINE = "---------------";
     private int id;
 
     public int getId() {

@@ -1,7 +1,5 @@
 package entity;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 /**
  * @author Zhou Guanliang
  * @since 2018/5/27
@@ -48,11 +46,19 @@ public class Option extends LinkTail {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return "Option " + getId() + "\n" +
+                SPLIT_LINE + "\n" +
+                "code: " + code + "\n" +
+                "text:\n" +
+                text + "\n" +
+                "interactionId: " + interactionId + "\n" +
+                "nextId: " + getNextId() + "\n" +
+                "nextClazz: " + getNextClazz() + "\n" +
+                SPLIT_LINE;
     }
 
     @Override
     public String getDesc() {
-        return "o" + super.getId() + "(" + Entity.cutText(text) + ")";
+        return "o" + getId() + "(" + Entity.cutText(text) + ")";
     }
 }

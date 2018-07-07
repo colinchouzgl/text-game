@@ -46,7 +46,7 @@ public class BaseDao {
         return true;
     }
 
-    public static <T> boolean remove(int id, Class<T> clazz) {
+    public static <T extends Entity> boolean remove(int id, Class<T> clazz) {
         Map<Integer, T> entityMap = Cache.get(getCacheKey(clazz));
         if (entityMap == null || entityMap.get(id) == null) {
             return false;
@@ -57,29 +57,37 @@ public class BaseDao {
         entityMap.remove(id);
         Cache.put(getCacheKey(clazz), entityMap);
 
-        if (entity instanceof LinkTail) {
-            LinkTail linkTail = (LinkTail) entity;
-            if (linkTail.getNextId() > 0) {
-                Object next = get(linkTail.getNextId(), linkTail.getNextClazz());
-                if (next != null) {
-                    if (LinkHeadUtils.isLinkHead(next.getClass())) {
-                        LinkHeadUtils.setPreId(next, 0);
-                        LinkHeadUtils.setPreClazz(next, null);
-                    }
-                }
-            }
-        }
+//        if (entity instanceof LinkTail) {
+//            LinkTail linkTail = (LinkTail) entity;
+//            if (linkTail.getNextId() > 0) {
+//                Object next = get(linkTail.getNextId(), linkTail.getNextClazz());
+//                if (next != null) {
+//                    if (LinkHeadUtils.isLinkHead(next.getClass())) {
+//                        LinkHeadUtils.setPreId(next, 0);
+//                        LinkHeadUtils.setPreClazz(next, null);
+//                    }
+//                }
+//            }
+//        }
 
         if (LinkHeadUtils.isLinkHead(clazz)) {
-            if (LinkHeadUtils.getPreId(entity) > 0) {
-                Object pre = get(LinkHeadUtils.getPreId(entity), LinkHeadUtils.getPreClazz(entity));
-                if (pre != null) {
-                    if (pre instanceof LinkTail) {
-                        ((LinkTail) pre).setNextId(0);
-                        ((LinkTail) pre).setNextClazz(null);
-                    }
+//            if (LinkHeadUtils.getPreId(entity) > 0) {
+//                Object pre = get(LinkHeadUtils.getPreId(entity), LinkHeadUtils.getPreClazz(entity));
+//                if (pre != null) {
+//                    if (pre instanceof LinkTail) {
+//                        ((LinkTail) pre).setNextId(0);
+//                        ((LinkTail) pre).setNextClazz(null);
+//                    }
+//                }
+//            }
+
+            List<Entity> preTails = getPreTails(entity);
+            preTails.forEach(linkTail -> {
+                if (linkTail instanceof LinkTail) {
+                    ((LinkTail) linkTail).setNextId(0);
+                    ((LinkTail) linkTail).setNextClazz(null);
                 }
-            }
+            });
         }
         return true;
     }
@@ -94,8 +102,7 @@ public class BaseDao {
             }
             Object nextNode = get(nextId, nextClazz);
             nexts.add((Entity) nextNode);
-        }
-        if (entity instanceof Interaction) {
+        } else if (entity instanceof Interaction) {
             List<Integer> optionIds = ((Interaction) entity).getOptionIds();
             if (optionIds == null || optionIds.size() == 0) {
                 return nexts;
@@ -103,6 +110,29 @@ public class BaseDao {
             optionIds.forEach(optionId -> nexts.add(get(optionId, Option.class)));
         }
         return nexts;
+    }
+
+    public static <T extends Entity> List<Entity> getPreTails(T entity) {
+        List<Entity> pres = new ArrayList<>();
+        if (LinkHeadUtils.isLinkHead(entity.getClass())) {
+            Map<Integer, Statement> statementMap = Cache.get(Constants.KEY_STATEMENTS);
+            Map<Integer, Option> optionMap = Cache.get(Constants.KEY_OPTIONS);
+            if (statementMap != null) {
+                statementMap.forEach((statementId, statement) -> {
+                    if (statement.getNextId() == entity.getId()) {
+                        pres.add(statement);
+                    }
+                });
+            }
+            if (optionMap != null) {
+                optionMap.forEach((optionId, option) -> {
+                    if (option.getNextId() == entity.getId()) {
+                        pres.add(option);
+                    }
+                });
+            }
+        }
+        return pres;
     }
 
     public static List<Option> getOptionsByInteraction(int interactionId) {
