@@ -22,7 +22,7 @@ public class BaseDao {
         return entityMap.get(id);
     }
 
-    public static <T extends Entity> void insert(T entity) {
+    public static <T extends Entity> T insert(T entity) {
         int id = Utils.generateId(entity.getClass());
         entity.setId(id);
         Map<Integer, T> entityMap = Cache.get(getCacheKey(entity.getClass()));
@@ -31,6 +31,7 @@ public class BaseDao {
         }
         entityMap.put(id, entity);
         Cache.put(getCacheKey(entity.getClass()), entityMap);
+        return entity;
     }
 
     public static <T extends Entity> boolean update(T entity) {

@@ -1,12 +1,14 @@
 package entity;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import java.util.List;
 
 /**
  * @author Zhou Guanliang
  * @since 2018/5/27
  */
-public class Interaction extends Entity{
+public class Interaction extends Entity {
     private String preface;
     private List<Integer> optionIds;
     private int preId;
@@ -42,5 +44,10 @@ public class Interaction extends Entity{
 
     public void setPreClazz(Class preClazz) {
         this.preClazz = preClazz;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

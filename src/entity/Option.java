@@ -1,5 +1,7 @@
 package entity;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 /**
  * @author Zhou Guanliang
  * @since 2018/5/27
@@ -31,5 +33,10 @@ public class Option extends LinkTail {
 
     public void setInteractionId(int interactionId) {
         this.interactionId = interactionId;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

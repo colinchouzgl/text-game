@@ -22,16 +22,16 @@ public class Utils {
     }
 
     public static void initAll(JSONObject json) {
-        initField(json, Constants.TABLE_ID_STATEMENT, Integer.class);
-        initField(json, Constants.TABLE_ID_INTERACTION, Integer.class);
-        initField(json, Constants.TABLE_ID_OPTION, Integer.class);
+        initField(json,Constants.TABLE_ID_STATEMENT,Integer.class);
+        initField(json,Constants.TABLE_ID_INTERACTION,Integer.class);
+        initField(json,Constants.TABLE_ID_OPTION,Integer.class);
 
         initMapField(json, Constants.KEY_STATEMENTS, Statement.class);
         initMapField(json, Constants.KEY_INTERACTIONS, Statement.class);
         initMapField(json, Constants.KEY_OPTIONS, Statement.class);
 
-        initField(json, Constants.KEY_BEGINNING_ID, Integer.class);
-        initField(json, Constants.KEY_BEGINNING_CLASS, Class.class);
+        initField(json,Constants.KEY_BEGINNING_ID,Integer.class);
+        initField(json,Constants.KEY_BEGINNING_CLASS,Class.class);
     }
 
     public static <T> void initField(JSONObject json, String key, Class<T> clazz) {

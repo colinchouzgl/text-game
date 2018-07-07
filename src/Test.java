@@ -1,6 +1,7 @@
 import common.Cache;
 import common.Constants;
 import common.Utils;
+import dao.BaseDao;
 import entity.Interaction;
 import entity.Option;
 import entity.Statement;
@@ -15,7 +16,11 @@ import java.util.*;
 public class Test {
     public static void main(String[] args) {
         init();
-        display();
+//        display();
+        Statement statement = BaseDao.get(2,Statement.class);
+        statement.setText("asdsads");
+        BaseDao.update(statement);
+        System.out.println(BaseDao.get(2,Statement.class));
     }
 
     public static void init() {

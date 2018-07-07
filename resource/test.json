@@ -42,8 +42,8 @@
     },
     "2" : {
       "id" : 2,
-      "nextClazz" : null,
-      "nextId" : 0,
+      "nextClazz" : "entity.Interaction",
+      "nextId" : 1,
       "preClazz" : "entity.Statement",
       "preId" : 1,
       "text" : "Who?"
