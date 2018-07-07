@@ -2,6 +2,7 @@ package entity;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,8 @@ import java.util.List;
  */
 public class Interaction extends Entity {
     private String preface;
-    private List<Integer> optionIds;
+    private List<Integer> optionIds = new ArrayList<>();
+    private int optionSize;
     private int preId;
     private Class preClazz;
 
@@ -28,6 +30,14 @@ public class Interaction extends Entity {
 
     public void setOptionIds(List<Integer> optionIds) {
         this.optionIds = optionIds;
+    }
+
+    public int getOptionSize() {
+        return optionSize;
+    }
+
+    public void setOptionSize(int optionSize) {
+        this.optionSize = optionSize;
     }
 
     public int getPreId() {
@@ -49,5 +59,10 @@ public class Interaction extends Entity {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
+    }
+
+    @Override
+    public String getDesc() {
+        return "i" + super.getId() + "(" + Entity.cutText(preface) + ")";
     }
 }

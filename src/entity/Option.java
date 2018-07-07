@@ -11,6 +11,17 @@ public class Option extends LinkTail {
     private String text;
     private int interactionId;
 
+    public Option() {
+    }
+
+    public Option(int code, String text, int interactionId, int nextId, Class nextClazz) {
+        this.code = code;
+        this.text = text;
+        this.interactionId = interactionId;
+        super.setNextId(nextId);
+        super.setNextClazz(nextClazz);
+    }
+
     public int getCode() {
         return code;
     }
@@ -38,5 +49,10 @@ public class Option extends LinkTail {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
+    }
+
+    @Override
+    public String getDesc() {
+        return "o" + super.getId() + "(" + Entity.cutText(text) + ")";
     }
 }

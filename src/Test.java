@@ -16,11 +16,7 @@ import java.util.*;
 public class Test {
     public static void main(String[] args) {
         init();
-//        display();
-        Statement statement = BaseDao.get(2,Statement.class);
-        statement.setText("asdsads");
-        BaseDao.update(statement);
-        System.out.println(BaseDao.get(2,Statement.class));
+        display();
     }
 
     public static void init() {

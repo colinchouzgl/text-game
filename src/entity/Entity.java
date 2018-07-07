@@ -14,4 +14,19 @@ public class Entity {
     public void setId(int id) {
         this.id = id;
     }
+
+    public boolean seems(Entity entity) {
+        return entity.getId() == this.id && entity.getClass() == this.getClass();
+    }
+
+    public String getDesc() {
+        return this.getClass().getSimpleName() + id;
+    }
+
+    public static String cutText(String text) {
+        if (text.length() > 4) {
+            return text.substring(0, 4) + "...";
+        }
+        return text;
+    }
 }

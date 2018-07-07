@@ -39,4 +39,9 @@ public class Statement extends LinkTail {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
+
+    @Override
+    public String getDesc() {
+        return "s" + super.getId() + "(" + Entity.cutText(text) + ")";
+    }
 }
