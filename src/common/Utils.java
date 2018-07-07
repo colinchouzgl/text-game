@@ -2,6 +2,8 @@ package common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Entity;
+import entity.Interaction;
+import entity.Option;
 import entity.Statement;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -22,16 +24,16 @@ public class Utils {
     }
 
     public static void initAll(JSONObject json) {
-        initField(json,Constants.TABLE_ID_STATEMENT,Integer.class);
-        initField(json,Constants.TABLE_ID_INTERACTION,Integer.class);
-        initField(json,Constants.TABLE_ID_OPTION,Integer.class);
+        initField(json, Constants.TABLE_ID_STATEMENT, Integer.class);
+        initField(json, Constants.TABLE_ID_INTERACTION, Integer.class);
+        initField(json, Constants.TABLE_ID_OPTION, Integer.class);
 
         initMapField(json, Constants.KEY_STATEMENTS, Statement.class);
-        initMapField(json, Constants.KEY_INTERACTIONS, Statement.class);
-        initMapField(json, Constants.KEY_OPTIONS, Statement.class);
+        initMapField(json, Constants.KEY_INTERACTIONS, Interaction.class);
+        initMapField(json, Constants.KEY_OPTIONS, Option.class);
 
-        initField(json,Constants.KEY_BEGINNING_ID,Integer.class);
-        initField(json,Constants.KEY_BEGINNING_CLASS,Class.class);
+        initField(json, Constants.KEY_BEGINNING_ID, Integer.class);
+        initField(json, Constants.KEY_BEGINNING_CLASS, Class.class);
     }
 
     public static <T> void initField(JSONObject json, String key, Class<T> clazz) {
@@ -50,11 +52,11 @@ public class Utils {
 
     public static <T> void initMapField(JSONObject json, String key, Class<T> clazz) {
         String value = JSONUtils.valueToString(json.get(key));
-        Map<String, T> map = fromJson(value, Map.class);
+        JSONObject valueObj = fromJson(value, JSONObject.class);
 
         Map<Integer, T> finalMap = new HashMap<>();
-        if (map != null) {
-            map.forEach((k, v) -> finalMap.put(Integer.parseInt(k), v));
+        if (valueObj != null) {
+            valueObj.forEach((k, v) -> finalMap.put(Integer.parseInt(k.toString()), fromJson(v.toString(), clazz)));
         }
         Cache.put(key, finalMap);
     }
